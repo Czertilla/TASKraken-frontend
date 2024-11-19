@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import {
-  AutoComplete,
   Button,
-  Cascader,
   Checkbox,
   Col,
   Form,
   Input,
-  InputNumber,
   Row,
   Select,
 } from 'antd';
+import axios from 'axios';
+import FormItem from 'antd/es/form/FormItem';
+
+import Recaptcha from 'react-recaptcha';
 
 const { Option } = Select;
 
@@ -46,6 +47,49 @@ const tailFormItemLayout = {
   },
 };
 
+const UsernameField = () => {
+	const [validateStatus, setValidateStatus] = useState(null)
+
+	async function validate(rule, value, callback) {
+		
+	}
+
+	return (
+		<Form.Item
+				shouldUpdate
+        name="nickname"
+        label="username"
+        tooltip="What do you want others to call you?"
+				hasFeedback
+				validateStatus={validateStatus}
+				validateDebounce={1000}
+        rules={[
+          {
+            required: true,
+            message: 'Please input your username!',
+            whitespace: true,
+          },
+          () => ({
+            validator(_, value) {
+							console.log("check", value)
+							if (value === "") return Promise.reject()
+							setValidateStatus("validating")
+							return axios.get(`http://127.0.0.1:8000/usercheck/${value}`).then((r) => {
+								const isValid = value === r.data.username && !r.data.exists
+								setValidateStatus(isValid ? "success" : "error")
+								if (isValid)
+									return Promise.resolve()
+								return Promise.reject(new Error("this username already exists"))
+							})
+            },
+          }),
+        ]}
+      >
+        <Input disabled={validateStatus === "validating"}/>
+      </Form.Item>
+	);
+}
+
 export function RegisterForm() {
   const [form] = Form.useForm();
 
@@ -77,7 +121,7 @@ export function RegisterForm() {
       scrollToFirstError
     >
       <Form.Item
-        name="email"
+        name="username"
         label="E-mail"
         rules={[
           {
@@ -130,20 +174,7 @@ export function RegisterForm() {
         <Input.Password />
       </Form.Item>
 
-      <Form.Item
-        name="username"
-        label="username"
-        tooltip="What do you want others to call you?"
-        rules={[
-          {
-            required: true,
-            message: 'Please input your username!',
-            whitespace: true,
-          },
-        ]}
-      >
-        <Input/>
-      </Form.Item>
+      <UsernameField/>
 
       <Form.Item label="Captcha" extra="We must make sure that your are a human.">
         <Row gutter={8}>
