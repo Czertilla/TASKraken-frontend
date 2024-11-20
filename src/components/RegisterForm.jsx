@@ -59,7 +59,7 @@ const UsernameField = () => {
 	return (
 		<Form.Item
 				shouldUpdate
-        name="nickname"
+        name="username"
         label="username"
         tooltip="What do you want others to call you?"
 				hasFeedback
@@ -73,7 +73,7 @@ const UsernameField = () => {
           },
           () => ({
             validator(_, value) {
-							console.log("check", value)
+							console.log("check username: ", value)
 							if (value === "") return Promise.reject()
 							setValidateStatus("validating")
 							return axios.get(`http://127.0.0.1:8000/user/check/${value}`).then((r) => {
@@ -94,10 +94,36 @@ const UsernameField = () => {
 
 export function RegisterForm() {
   const [form] = Form.useForm();
+  const [existingEmail, setExistingEmail] = useState("")
 
   const onFinish = (values) => {
-    console.log('Received values of form: ', values);
+    console.log("registerData", values)
+      axios.post("http://localhost:8000/auth/register", values).then((response) => {
+      }).catch((error) => {
+        if (error.response.status == 400 && error.response.data.detail === "REGISTER_USER_ALREADY_EXISTS"){
+          console.error(values.email, "already exists")
+          setExistingEmail(values.email)
+          console.log(form)
+        }
+      })
+      form.setFieldValue({"email": "AAV"})
   };
+
+  const onSubmit = () => {
+    form.validateFields().then((values) => {
+      console.log("registerData", values)
+      axios.post("http://localhost:8000/auth/register", values).then((response) => {
+      }).catch((error) => {
+        if (error.response.status == 400 && error.response.data.detail === "REGISTER_USER_ALREADY_EXISTS"){
+          console.error(values.email, "already exists")
+          setExistingEmail(values.email)
+          form.validateFields(["email"])
+        }
+      })
+    }).catch((errorInfo) => {
+      console.error(errorInfo)
+    })
+  }
 
   const [autoCompleteResult, setAutoCompleteResult] = useState([]);
   const onWebsiteChange = (value) => {
@@ -113,8 +139,8 @@ export function RegisterForm() {
   }));
   return (
     <Form
-      {...formItemLayout}
       form={form}
+      {...formItemLayout}
       name="register"
       onFinish={onFinish}
       style={{
@@ -123,8 +149,10 @@ export function RegisterForm() {
       scrollToFirstError
     >
       <Form.Item
-        name="username"
+        name="email"
         label="E-mail"
+        shouldUpdate
+        validateTrigger={["onChange", "onFinish"]}
         rules={[
           {
             type: 'email',
@@ -134,6 +162,14 @@ export function RegisterForm() {
             required: true,
             message: 'Please input your E-mail!',
           },
+          () => ({
+            validator(_, value) {
+              if (existingEmail===value){
+                return Promise.reject(new Error("this email already registered"))
+              }
+              return Promise.resolve()
+            },
+          }),
         ]}
       >
         <Input/>
@@ -216,7 +252,10 @@ export function RegisterForm() {
         </Checkbox>
       </Form.Item>
       <Form.Item {...tailFormItemLayout}>
-        <Button type="primary" htmlType="submit">
+        <Button
+          type="primary" 
+          htmlType="submit"
+        >
           Register
         </Button>
       </Form.Item>
