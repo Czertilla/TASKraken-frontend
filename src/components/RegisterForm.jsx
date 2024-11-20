@@ -9,10 +9,13 @@ import {
   Select,
 } from 'antd';
 import axios from 'axios';
-import FormItem from 'antd/es/form/FormItem';
+
+import Recaptcha from 'react-recaptcha';
 
 
 const { Option } = Select;
+
+const {RC_SITEKEY} = '6LfS9IQqAAAAANnYp35ReDVzv9AqbTcmEiRTKI1o';
 
 const formItemLayout = {
   labelCol: {
@@ -175,7 +178,7 @@ export function RegisterForm() {
 
       <UsernameField/>
 
-      <Form.Item label="Captcha" extra="We must make sure that your are a human.">
+      {/* <Form.Item label="Captcha" extra="We must make sure that your are a human.">
         <Row gutter={8}>
           <Col span={12}>
             <Form.Item
@@ -195,7 +198,7 @@ export function RegisterForm() {
             <Button>Get captcha</Button>
           </Col>
         </Row>
-      </Form.Item>
+      </Form.Item> */}
 
       <Form.Item
         name="agreement"
