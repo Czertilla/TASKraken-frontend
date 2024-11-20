@@ -11,7 +11,6 @@ import {
 import axios from 'axios';
 import FormItem from 'antd/es/form/FormItem';
 
-import Recaptcha from 'react-recaptcha';
 
 const { Option } = Select;
 
@@ -74,7 +73,7 @@ const UsernameField = () => {
 							console.log("check", value)
 							if (value === "") return Promise.reject()
 							setValidateStatus("validating")
-							return axios.get(`http://127.0.0.1:8000/usercheck/${value}`).then((r) => {
+							return axios.get(`http://127.0.0.1:8000/user/check/${value}`).then((r) => {
 								const isValid = value === r.data.username && !r.data.exists
 								setValidateStatus(isValid ? "success" : "error")
 								if (isValid)
