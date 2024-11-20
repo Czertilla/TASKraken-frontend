@@ -256,6 +256,7 @@ export function RegisterForm() {
         <Button
           type="primary" 
           htmlType="submit"
+          iconPosition='end'
           loading={submitLoading}
           onClick={onClick}
         >
