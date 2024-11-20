@@ -91,19 +91,32 @@ const UsernameField = () => {
 export function RegisterForm() {
   const [form] = Form.useForm();
   const [existingEmail, setExistingEmail] = useState("")
+  const [submitLoading, setSubmitLoading] = useState(false)
 
   const onFinish = (values) => {
     console.log("registerData", values)
-      axios.post("http://localhost:8000/auth/register", values).then((response) => {
-      }).catch((error) => {
+      axios.post("http://localhost:8000/auth/register", values)
+      .then((response) => {
+      })
+      .catch((error) => {
         if (error.response.status == 400 && error.response.data.detail === "REGISTER_USER_ALREADY_EXISTS"){
           console.error(values.email, "already exists")
           setExistingEmail(values.email)
           console.log(form)
         }
       })
-      form.setFieldValue({"email": "AAV"})
+      .finally(() => {
+        setSubmitLoading(false)
+      })
   };
+
+  const onFinishFailed = () => {
+    setSubmitLoading(false)
+  }
+
+  const onClick = () => {
+    setSubmitLoading(true)
+  }
 
   useEffect(() =>{
     if (existingEmail != "")
@@ -128,6 +141,7 @@ export function RegisterForm() {
       {...formItemLayout}
       name="register"
       onFinish={onFinish}
+      onFinishFailed={onFinishFailed}
       style={{
         maxWidth: 600,
       }}
@@ -236,10 +250,14 @@ export function RegisterForm() {
           I have read the <a href="">agreement</a>
         </Checkbox>
       </Form.Item>
-      <Form.Item {...tailFormItemLayout}>
+      <Form.Item 
+        {...tailFormItemLayout}
+      >
         <Button
           type="primary" 
           htmlType="submit"
+          loading={submitLoading}
+          onClick={onClick}
         >
           Register
         </Button>
