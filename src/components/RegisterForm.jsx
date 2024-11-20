@@ -84,7 +84,7 @@ const UsernameField = () => {
           }),
         ]}
       >
-        <Input disabled={validateStatus === "validating"}/>
+        <Input/>
       </Form.Item>
 	);
 }
