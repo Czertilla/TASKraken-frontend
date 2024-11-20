@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button,
   Checkbox,
@@ -51,10 +51,6 @@ const tailFormItemLayout = {
 
 const UsernameField = () => {
 	const [validateStatus, setValidateStatus] = useState(null)
-
-	async function validate(rule, value, callback) {
-		
-	}
 
 	return (
 		<Form.Item
@@ -109,21 +105,10 @@ export function RegisterForm() {
       form.setFieldValue({"email": "AAV"})
   };
 
-  const onSubmit = () => {
-    form.validateFields().then((values) => {
-      console.log("registerData", values)
-      axios.post("http://localhost:8000/auth/register", values).then((response) => {
-      }).catch((error) => {
-        if (error.response.status == 400 && error.response.data.detail === "REGISTER_USER_ALREADY_EXISTS"){
-          console.error(values.email, "already exists")
-          setExistingEmail(values.email)
-          form.validateFields(["email"])
-        }
-      })
-    }).catch((errorInfo) => {
-      console.error(errorInfo)
-    })
-  }
+  useEffect(() =>{
+    if (existingEmail != "")
+      form.validateFields(["email"])
+  }, [existingEmail])
 
   const [autoCompleteResult, setAutoCompleteResult] = useState([]);
   const onWebsiteChange = (value) => {
@@ -152,7 +137,7 @@ export function RegisterForm() {
         name="email"
         label="E-mail"
         shouldUpdate
-        validateTrigger={["onChange", "onFinish"]}
+        validateTrigger={["onChange"]}
         rules={[
           {
             type: 'email',
