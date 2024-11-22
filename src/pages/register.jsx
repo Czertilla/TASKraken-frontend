@@ -1,7 +1,10 @@
 import Card from "antd/es/card/Card";
 import { RegisterForm } from "../components/RegisterForm";
+import { useParams } from 'react-router-dom';
 
 export const Register = () => {
+
+  const params = useParams();
   
   return (
     <div className="my-auto">
