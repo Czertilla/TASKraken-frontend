@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Register } from './pages/register';
 import { Roles } from './pages/roles';
+import { NotFound } from './components/Result';
 
 export const App = () => {
 
@@ -13,7 +14,8 @@ export const App = () => {
         }}
       >
         <Routes>
-          <Route path="/register" element={<Register/>}/>
+          <Route path="/register/:email?" element={<Register/>}/>
+          <Route path="*" element={<NotFound/>}/>
         </Routes>
       </BrowserRouter>
     </div>
