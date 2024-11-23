@@ -17,25 +17,6 @@ const { Option } = Select;
 
 const {RC_SITEKEY} = '6LfS9IQqAAAAANnYp35ReDVzv9AqbTcmEiRTKI1o';
 
-const formItemLayout = {
-  labelCol: {
-    xs: {
-      span: 24,
-    },
-    sm: {
-      span: 8,
-    },
-  },
-  wrapperCol: {
-    xs: {
-      span: 24,
-    },
-    sm: {
-      span: 16,
-    },
-  },
-};
-
 
 const UsernameField = () => {
 	const [validateStatus, setValidateStatus] = useState(null)
