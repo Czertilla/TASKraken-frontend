@@ -7,22 +7,22 @@ export const Register = () => {
   const params = useParams();
   
   return (
-    <div className="my-auto">
-        <Card
-            className="mx-auto"
-          title={
-            <div className="mx-auto">
-                <p>Регистрация</p>
-            </div>
-          }
-          style={{
-            width: 500,
-          }}
-          >
-            <div className="mx-auto">
-                <RegisterForm/>
-            </div>
-        </Card>
+    <div>
+        <div className="grid grid-cols-1 justify-items-center">
+          <Card
+            className="shadow-lg w-11/12"
+            style={{
+              maxWidth: 500
+            }}
+            title={
+              <div>
+                  <p>Регистрация</p>
+              </div>
+            }
+            >
+              <RegisterForm/>
+          </Card>
+        </div>
     </div>
   );
 };

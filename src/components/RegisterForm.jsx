@@ -36,18 +36,6 @@ const formItemLayout = {
   },
 };
 
-const tailFormItemLayout = {
-  wrapperCol: {
-    xs: {
-      span: 24,
-      offset: 0,
-    },
-    sm: {
-      span: 16,
-      offset: 8,
-    },
-  },
-};
 
 const UsernameField = () => {
 	const [validateStatus, setValidateStatus] = useState(null)
@@ -92,6 +80,7 @@ export function RegisterForm() {
   const [form] = Form.useForm();
   const [existingEmail, setExistingEmail] = useState("")
   const [submitLoading, setSubmitLoading] = useState(false)
+  const [isDisable, setDisable] = useState()
 
   const onFinish = (values) => {
     console.log("registerData", values)
@@ -122,6 +111,9 @@ export function RegisterForm() {
     if (existingEmail != "")
       form.validateFields(["email"])
   }, [existingEmail])
+  useEffect(() => {
+    setDisable(submitLoading)
+  }, [submitLoading])
 
   const [autoCompleteResult, setAutoCompleteResult] = useState([]);
   const onWebsiteChange = (value) => {
@@ -138,13 +130,10 @@ export function RegisterForm() {
   return (
     <Form
       form={form}
-      {...formItemLayout}
       name="register"
+      layout='vertical'
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
-      style={{
-        maxWidth: 600,
-      }}
       scrollToFirstError
     >
       <Form.Item
@@ -174,6 +163,8 @@ export function RegisterForm() {
         <Input/>
       </Form.Item>
 
+      <UsernameField/>
+
       <Form.Item
         name="password"
         label="Password"
@@ -184,7 +175,7 @@ export function RegisterForm() {
           },
         ]}
         hasFeedback
-      >
+        >
         <Input.Password/>
       </Form.Item>
 
@@ -211,7 +202,6 @@ export function RegisterForm() {
         <Input.Password />
       </Form.Item>
 
-      <UsernameField/>
 
       {/* <Form.Item label="Captcha" extra="We must make sure that your are a human.">
         <Row gutter={8}>
@@ -244,20 +234,20 @@ export function RegisterForm() {
               value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement')),
           },
         ]}
-        {...tailFormItemLayout}
       >
         <Checkbox>
           I have read the <a href="">agreement</a>
         </Checkbox>
       </Form.Item>
       <Form.Item 
-        {...tailFormItemLayout}
+        className='flex justify-center'
       >
         <Button
           type="primary" 
           htmlType="submit"
           iconPosition='end'
           loading={submitLoading}
+          disabled={isDisable}
           onClick={onClick}
         >
           Register
