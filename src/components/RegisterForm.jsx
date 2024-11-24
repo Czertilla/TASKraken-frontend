@@ -11,6 +11,7 @@ import {
 import axios from 'axios';
 
 import Recaptcha from 'react-recaptcha';
+import { useNavigate } from 'react-router-dom';
 
 
 const { Option } = Select;
@@ -62,11 +63,15 @@ export function RegisterForm() {
   const [existingEmail, setExistingEmail] = useState("")
   const [submitLoading, setSubmitLoading] = useState(false)
   const [isDisable, setDisable] = useState()
+  const navigate = useNavigate()
 
   const onFinish = (values) => {
     console.log("registerData", values)
       axios.post("http://localhost:8000/auth/register", values)
       .then((response) => {
+        axios.post("http://127.0.0.1:8000/auth/request-verify-token", {email: response.data.email})
+        localStorage.setItem("sendVerifyTimeout", "90")
+        navigate(`/verify/${response.data.email}`)
       })
       .catch((error) => {
         if (error.response.status == 400 && error.response.data.detail === "REGISTER_USER_ALREADY_EXISTS"){
