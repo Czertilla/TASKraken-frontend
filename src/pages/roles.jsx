@@ -4,6 +4,8 @@ import axios from 'axios';
 import { useState } from 'preact/hooks';
 import { RoleCard } from '../components/RoleCard';
 import { RoleMenu } from '../components/RoleMenu';
+import { api } from '../utils/axiosConfig';
+import { useNavigate } from 'react-router-dom';
 
 function getItem(label, key, icon, children, type){
   return {
@@ -19,9 +21,12 @@ export const Roles = () => {
   const [roles, setRoles] = useState([])
   const [roleId, setRoleId] = useState(null)
   const [roleCardData, setRoleData] = useState(null)
+  const [authorized, setAthorized] = useState(true)
+  const navigate = useNavigate()
 
   const fetchRoles = () => {
-    axios.get("http://127.0.0.1:8000/role/search").then(r => {
+    api.get("/role/my-roles")
+    .then(r => {
       const searchRolesResponse = r.data.result
       const menuItems = [
         getItem("Список ролей", "g1", null, 
@@ -32,6 +37,13 @@ export const Roles = () => {
         )
       ]
       setRoles(menuItems)
+    })
+    .catch((error) => {
+      console.log("err", error);
+      if (error.response.status == 401 && error.response.data.detail === "Unauthorized"){
+        setAthorized(false)
+      }
+      
     })
   }
 
@@ -53,6 +65,9 @@ export const Roles = () => {
     setRoleData(null)
     fetchRole()
   }, [roleId])
+  useEffect(() => {
+    if (!authorized) navigate("/auth/jwt/login")
+  }, [authorized])
 
 
   const onClick = (e) => {
