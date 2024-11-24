@@ -3,6 +3,7 @@ import { Register } from './pages/register';
 import { Roles } from './pages/roles';
 import { NotFound } from './components/Result';
 import { Home } from './pages/home';
+import { Verify } from './components/Verify';
 
 export const App = () => {
 
@@ -17,6 +18,7 @@ export const App = () => {
         <Routes>
           <Route path="/" element={<Home/>}/>
           <Route path="/register/:email?" element={<Register/>}/>
+          <Route path="/verify/:email" element={<Verify/>}/>
           <Route path="/roles" element={<Roles/>}/>
           <Route path="*" element={<NotFound/>}/>
         </Routes>
