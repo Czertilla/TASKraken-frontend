@@ -8,7 +8,7 @@ export const Register = () => {
   
   return (
     <div>
-        <div className="grid grid-cols-1 justify-items-center">
+        <div className="grid grid-cols-1 justify-items-center mt-20 md:mt-40">
           <Card
             className="shadow-lg w-11/12"
             style={{
