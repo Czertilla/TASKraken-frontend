@@ -71,7 +71,7 @@ export function RegisterForm() {
       .then((response) => {
         axios.post("http://127.0.0.1:8000/auth/request-verify-token", {email: response.data.email})
         localStorage.setItem("sendVerifyTimeout", "90")
-        navigate(`/verify/${response.data.email}`)
+        navigate(`/auth/verify/${response.data.email}`)
       })
       .catch((error) => {
         if (error.response.status == 400 && error.response.data.detail === "REGISTER_USER_ALREADY_EXISTS"){
