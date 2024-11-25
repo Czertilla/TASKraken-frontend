@@ -5,6 +5,7 @@ import { Forbidden, NotFound } from './components/Result';
 import { Home } from './pages/home';
 import { LoginPage } from './pages/login';
 import { VerifyPage } from './pages/verify';
+import { Hud } from './components/Hud';
 
 export const App = () => {
 
@@ -23,6 +24,7 @@ export const App = () => {
           <Route path="/auth/jwt/login/:email?" element={<LoginPage/>}/>
           <Route path="/auth/verify/:email" element={<VerifyPage/>}/>
           <Route path="/roles" element={<Roles/>}/>
+          <Route path="/hud" element={<Hud/>}/>
           <Route path="*" element={<NotFound/>}/>
         </Routes>
       </BrowserRouter>
