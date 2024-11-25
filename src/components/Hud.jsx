@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+  HomeOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   UploadOutlined,
@@ -7,32 +8,37 @@ import {
   VideoCameraOutlined,
 } from '@ant-design/icons';
 import { Button, Layout, Menu, theme } from 'antd';
-import { Footer } from 'antd/es/layout/layout';
 const { Header, Sider, Content } = Layout;
-
 export const Hud = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const [collapserAble, setCollapserAble] = useState(true);
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
   return (
     <Layout>
-      <Sider className="grid" trigger={null} collapsible collapsed={collapsed}>
-        <Button
-          className='mx-auto'
-          icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-          onClick={() => setCollapsed(!collapsed)}
-          style={{
-            fontSize: '16px',
-            width: 80,
-            height: 64,
-          }}
-        />
+      <Sider 
+        trigger={null} 
+        theme="light" 
+        collapsible 
+        collapsed={collapsed}
+        breakpoint="lg"
+        onBreakpoint={(broken) => {
+          setCollapserAble(!broken)
+          setCollapsed(broken)
+        }}
+      >
         <Menu
-          className='grid'
+          className='my-2'
+          theme="light"
           mode="inline"
-          defaultSelectedKeys={['1']}
+          defaultSelectedKeys={['0']}
           items={[
+            {
+              key: '0',
+              icon: <HomeOutlined />,
+              label: "home"
+            },
             {
               key: '1',
               icon: <UserOutlined />,
@@ -58,25 +64,29 @@ export const Hud = () => {
             background: colorBgContainer,
           }}
         >
+          <Button
+            type="text"
+            disabled={!collapserAble}
+            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+            onClick={() => setCollapsed(!collapsed)}
+            style={{
+              fontSize: '16px',
+              width: 64,
+              height: 64,
+            }}
+          />
         </Header>
         <Content
           style={{
             margin: '24px 16px',
             padding: 24,
-            minHeight: 280000,
+            minHeight: 280,
             background: colorBgContainer,
             borderRadius: borderRadiusLG,
           }}
         >
           Content
         </Content>
-        <Footer
-          style={{
-            textAlign: 'center',
-          }}
-        >
-          Ant Design ©{new Date().getFullYear()} Created by Ant UED
-        </Footer>
       </Layout>
     </Layout>
   );
