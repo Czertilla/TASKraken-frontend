@@ -10,27 +10,42 @@ import {
 import { Button, Flex, Layout, Menu, Tabs, theme } from 'antd';
 import { getItem } from '../utils/localStorage';
 import { ThemeSwithcer } from './ThemeSwitcher';
+import { useSwipeable } from 'react-swipeable';
 const { Header, Sider, Content } = Layout;
 
-const siderStyle = {
-  padding: 0,
-  overflow: "auto",
-  height: "100vh",
-  position: "sticky",
-  top: 0,
-  left: 0,
-};
+const getSiderStyle = (coolapserAble) =>{
+  return {
+    padding: 0,
+    height: "100vh",
+    position: coolapserAble ? "sticky" : "absolute",
+    zIndex: 999,
+    top: 0,
+    left: 0,
+  };
+}
+
 
 export const Hud = (props) => {
   const { content } = props
   const [themeKey, setTheme] = useState(getItem("theme", "white"))
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
   const [collapserAble, setCollapserAble] = useState(true);
   const [buttonsColor, setBottonsColor] = useState("black")
   const themeSwitcher = ThemeSwithcer()
   const {
       token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+  const swipeHandler = useSwipeable({
+      onSwipedLeft: () => setCollapsed(true),
+      onSwipedRight: () => setCollapsed(false)
+  });
+  const onClick = (e) => {
+      if (!collapserAble && !collapsed) {
+        setCollapsed(true);
+        e.stopPropagation();
+      }
+      
+  }
   useEffect(() => {
       setTheme(getItem("theme", "white"))
   }, [themeSwitcher])
@@ -38,12 +53,13 @@ export const Hud = (props) => {
       setBottonsColor(themeKey === "dark" ? "white" : "black")
   }, [themeKey])
   return (
-    <Layout>
+    <Layout className='relative'>
       <Sider 
+        {...swipeHandler}
         trigger={null} 
-        theme={themeKey} 
+        theme={themeKey}
         collapsible 
-        style={siderStyle}
+        style={getSiderStyle(collapserAble)}
         collapsed={collapsed}
         breakpoint="sm"
         onBreakpoint={(broken) => {
@@ -80,9 +96,17 @@ export const Hud = (props) => {
           ]}
         />
       </Sider>
-      <Layout>
+      <Layout
+      onClick={onClick}
+      className= {!collapserAble && !collapsed ? "blur brightness-50" : ""}
+      style={{
+        overflow: "hidden",
+        marginLeft: collapserAble ? 0 : 72,
+        minHeight: "100vh"
+      }}
+      >
         <Header
-          className='justify-between'
+          className='justify-between w-11/12'
           style={{
             padding: 0,
             background: themeKey === "light" ? colorBgContainer: null,
