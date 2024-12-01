@@ -21,7 +21,7 @@ const getSiderStyle = (coolapserAble) =>{
   return {
     padding: 0,
     height: "100vh",
-    position: coolapserAble ? "sticky" : "absolute",
+    position: coolapserAble ? "sticky" : "fixed",
     zIndex: 999,
     top: 0,
     left: 0,
@@ -90,9 +90,9 @@ export const Hud = (props) => {
       onClick={onClick}
       className= {!collapserAble && !collapsed ? "hide-enter" : "hide-outer"}
       style={{
-        overflow: "hidden",
+        overflow: "visible",
         marginLeft: collapserAble ? 0 : 72,
-        minHeight: "100vh"
+        minHeight: "100vh",
       }}
       >
         <Header
