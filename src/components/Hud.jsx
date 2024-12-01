@@ -12,6 +12,7 @@ import { getItem } from '../utils/localStorage';
 import { ThemeSwithcer } from './ThemeSwitcher';
 import { useSwipeable } from 'react-swipeable';
 import Icon from '@ant-design/icons';
+import "../styles/siderOverflow.css";
 
 import logoSvg from '../assets/icons/task.svg?react';
 const { Header, Sider, Content } = Layout;
@@ -87,7 +88,7 @@ export const Hud = (props) => {
       </Sider>
       <Layout
       onClick={onClick}
-      className= {!collapserAble && !collapsed ? "blur brightness-50" : ""}
+      className= {!collapserAble && !collapsed ? "hide-enter" : "hide-outer"}
       style={{
         overflow: "hidden",
         marginLeft: collapserAble ? 0 : 72,
