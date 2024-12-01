@@ -1,0 +1,37 @@
+:root {
+  --max-blur: 10px;
+  --min-scale: 0.95;
+  --hide-time: 0.2s;
+  --min-brightness: 0.4;
+}
+
+@keyframes hideIn {
+  from {
+    filter: blur(0) brightness(1);
+    scale: 1;
+  }
+  to {
+    filter: blur(var(--max-blur)) brightness(var(--min-brightness));
+    scale: var(--min-scale);
+  }
+}
+
+@keyframes hideOut {
+  from {
+      filter: blur(var(--max-blur)) brightness(var(--min-brightness));
+      scale: var(--min-scale);
+    }
+  to {
+    filter: blur(0) brightness(1);
+    scale: 1;
+  }
+}
+
+.hide-enter {
+  animation: hideIn var(--hide-time) ease-in-out forwards;
+}
+
+.hide-outer {
+  animation: hideOut var(--hide-time) ease-in-out forwards;
+}
+
