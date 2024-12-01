@@ -11,6 +11,9 @@ import { Button, Flex, Layout, Menu, Tabs, theme } from 'antd';
 import { getItem } from '../utils/localStorage';
 import { ThemeSwithcer } from './ThemeSwitcher';
 import { useSwipeable } from 'react-swipeable';
+import Icon from '@ant-design/icons';
+
+import logoSvg from '../assets/icons/task.svg?react';
 const { Header, Sider, Content } = Layout;
 
 const getSiderStyle = (coolapserAble) =>{
@@ -26,7 +29,7 @@ const getSiderStyle = (coolapserAble) =>{
 
 
 export const Hud = (props) => {
-  const { content } = props
+  const { content, sideMenuItems, headMenuItems, dfltSide, dfltHead } = props
   const [themeKey, setTheme] = useState(getItem("theme", "white"))
   const [collapsed, setCollapsed] = useState(true);
   const [collapserAble, setCollapserAble] = useState(true);
@@ -71,28 +74,14 @@ export const Hud = (props) => {
           className='my-2'
           theme={themeKey}
           mode="inline"
-          defaultSelectedKeys={['0']}
+          defaultSelectedKeys={[dfltSide || "h"]}
           items={[
             {
-              key: '0',
-              icon: <HomeOutlined />,
-              label: "home"
+              key: 'h',
+              icon: <Icon component={logoSvg} style={{fontSize: "40px", marginLeft: "-13px"}}/>,
+              label: "TASKraken",
             },
-            {
-              key: '1',
-              icon: <UserOutlined />,
-              label: 'nav 1',
-            },
-            {
-              key: '2',
-              icon: <VideoCameraOutlined />,
-              label: 'nav 2',
-            },
-            {
-              key: '3',
-              icon: <UploadOutlined />,
-              label: 'nav 3',
-            },
+            ...sideMenuItems || []
           ]}
         />
       </Sider>
@@ -106,7 +95,6 @@ export const Hud = (props) => {
       }}
       >
         <Header
-          className='justify-between w-11/12'
           style={{
             padding: 0,
             background: themeKey === "light" ? colorBgContainer: null,
@@ -144,34 +132,21 @@ export const Hud = (props) => {
             <Menu
             theme={themeKey}
             mode="horizontal"
-            defaultSelectedKeys={['0']}
+            defaultSelectedKeys={[dfltHead || 'h']}
             items={[
                 {
-                  key: '0',
+                  key: 'h',
                   icon: <HomeOutlined />,
                   label: "home"
                 },
-                {
-                  key: '1',
-                  icon: <UserOutlined />,
-                  label: 'nav 1',
-                },
-                {
-                  key: '2',
-                  icon: <VideoCameraOutlined />,
-                  label: 'nav 2',
-                },
-                {
-                  key: '3',
-                  icon: <UploadOutlined />,
-                  label: 'nav 3',
-                },
+                ...headMenuItems || []
               ]}
             />
           </Flex>
           
-          
+          <Flex className='ml-auto mr-2'>
             {themeSwitcher}
+          </Flex>
         </Header>
         <Content
           style={{
