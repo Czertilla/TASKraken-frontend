@@ -147,31 +147,6 @@ export const Hud = (props) => {
                 icon: <HomeOutlined />,
                 label: "home",
               },
-              {
-                key: "h",
-                icon: <HomeOutlined />,
-                label: "home",
-              },
-              {
-                key: "h",
-                icon: <HomeOutlined />,
-                label: "home",
-              },
-              {
-                key: "h",
-                icon: <HomeOutlined />,
-                label: "home",
-              },
-              {
-                key: "h",
-                icon: <HomeOutlined />,
-                label: "home",
-              },
-              {
-                key: "hвв",
-                icon: <HomeOutlined />,
-                label: "home",
-              },
               ...(headMenuItems || []),
             ]}
             />
