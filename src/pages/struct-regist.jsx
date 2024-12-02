@@ -24,11 +24,12 @@ export const StructRegist = () => {
         }
         headMenuItems={[
           {
-            "key": 'ns',
-            "label": 'Новая структура',
-            'icon': <Icon component={NewOrgSvg}/>
+            key: 'ns',
+            label: 'Новая структура',
+            icon: <Icon component={NewOrgSvg}/>
           },
         ]}
+        dfltHead='ns'
         />
       </div>
     );

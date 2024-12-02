@@ -127,15 +127,6 @@ export const Hud = (props) => {
               }}
             />
           ) : <div/>}
-          <Flex className='scroll-container'
-            style={{
-              overflowX: "scroll",
-              scrollbarGutter: "stable",
-              whiteSpace: "nowrap",
-              scrollbarWidth: "none",
-              msOverflowStyle: "none", // Для IE/Edge
-            }}  
-          >
           <Menu
             theme={themeKey}
             mode="horizontal"
@@ -149,7 +140,6 @@ export const Hud = (props) => {
               ...(headMenuItems || []),
             ]}
             />
-          </Flex>
 
           <Flex style={{ justifySelf: "end", marginRight: "8px" }}>{themeSwitcher}</Flex>
         </Header>
