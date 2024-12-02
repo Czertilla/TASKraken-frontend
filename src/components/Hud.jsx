@@ -32,7 +32,7 @@ const getSiderStyle = (coolapserAble) =>{
 export const Hud = (props) => {
   const { content, sideMenuItems, headMenuItems, dfltSide, dfltHead } = props
   const [themeKey, setTheme] = useState(getItem("theme", "white"))
-  const [collapsed, setCollapsed] = useState(true);
+  const [collapsed, setCollapsed] = useState(false);
   const [collapserAble, setCollapserAble] = useState(true);
   const [buttonsColor, setBottonsColor] = useState("black")
   const themeSwitcher = ThemeSwithcer()
@@ -88,7 +88,7 @@ export const Hud = (props) => {
       </Sider>
       <Layout
       onClick={onClick}
-      className= {!collapserAble && !collapsed ? "hide-enter" : "hide-outer"}
+      className= {!collapserAble ?( !collapsed ? "hide-enter" : "hide-outer") : ""}
       style={{
         overflow: "visible",
         marginLeft: collapserAble ? 0 : 72,
