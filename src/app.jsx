@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Register } from './pages/register';
 import { Roles } from './pages/roles';
-import { Forbidden, NotFound } from './components/Result';
+import { Forbidden, NotFound, InternalError } from './components/Result';
 import { Home } from './pages/home';
 import { LoginPage } from './pages/login';
 import { VerifyPage } from './pages/verify';
@@ -27,6 +27,7 @@ export const App = () => {
           <Route path="/roles" element={<Roles/>}/>
           <Route path="/struct/regist" element={<StructRegist/>}/>
           <Route path="/hud" element={<Hud/>}/>
+          <Route path="/internal" element={<InternalError/>}/>
           <Route path="*" element={<NotFound/>}/>
         </Routes>
       </BrowserRouter>

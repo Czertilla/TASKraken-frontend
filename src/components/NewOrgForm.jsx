@@ -9,111 +9,103 @@ import {
   Input,
   Row,
   Select,
-	Space,
 	Switch,
 } from 'antd';
 
-import { DownOutlined } from '@ant-design/icons';
-
-import Recaptcha from 'react-recaptcha';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../utils/axiosConfig';
 import { cr_roles_rights, cr_struct_rights, edit_other_rights, reject_task_rights, send_petition_rights, send_task_rights } from './rights';
 
-
-const { Option } = Select;
 const MAX_DESC_LENGTH = 512;
 
 
 const TemplateDropdown = (props) => {
-	const [selectedKey, setSelectedKey] = useState('gendir')
-	const { form } = props
+		const [selectedKey, setSelectedKey] = useState('gendir')
+		const { form } = props
 
 		useEffect(() => {
-			switch (selectedKey) {
-				case "ordinary":
-					var crStructRight = cr_struct_rights[3] // TODO compare with back
-					var crRoleRight = cr_roles_rights[6]
-					var snTaskRight = send_task_rights[4]
-					var snReportRight = true
-					var snPetitRight = send_petition_rights[4]
-					var rjTaskRight = reject_task_rights[2]
-					var crProjectRight = false
-					var edOtherRight = edit_other_rights[3]
-					var edSelfRight = false
-					break;
-				case "head":
-					var crStructRight = cr_struct_rights[2]
-					var crRoleRight = cr_roles_rights[3]
-					var snTaskRight = send_task_rights[2]
-					var snReportRight = true
-					var snPetitRight = send_petition_rights[3]
-					var rjTaskRight = reject_task_rights[1]
-					var crProjectRight = false
-					var edOtherRight = edit_other_rights[1]
-					var edSelfRight = false
-					break;
-				case "hr":
-					var crStructRight = cr_struct_rights[3]
-					var crRoleRight = cr_roles_rights[0]
-					var snTaskRight = send_task_rights[4]
-					var snReportRight = true
-					var snPetitRight = send_petition_rights[4]
-					var rjTaskRight = reject_task_rights[2]
-					var crProjectRight = false
-					var edOtherRight = edit_other_rights[1]
-					var edSelfRight = false
-					break;
-				case "gendir":
-					var crStructRight = cr_struct_rights[0]
-					var crRoleRight = cr_roles_rights[0]
-					var snTaskRight = send_task_rights[0]
-					var snReportRight = true
-					var snPetitRight = send_petition_rights[0]
-					var rjTaskRight = reject_task_rights[0]
-					var crProjectRight = true
-					var edOtherRight = edit_other_rights[0]
-					var edSelfRight = true
-					break;
-				default:
-					return;
-			}
-		form.setFieldsValue({
-			can_create_substructures: crStructRight.value,
-			can_create_subordinates: crRoleRight.value,
-			can_send_task: snTaskRight.value,
-			can_send_report: snReportRight,
-			can_send_petition: snPetitRight.value,
-			can_reject_task: rjTaskRight.value,
-			can_create_project: crProjectRight,
-			can_edit_other_rights: edOtherRight.value,
-			can_edit_oneself_rights: edSelfRight
-		})
+				switch (selectedKey) {
+					case "ordinary":
+						var crStructRight = cr_struct_rights[3] // TODO compare with back
+						var crRoleRight = cr_roles_rights[6]
+						var snTaskRight = send_task_rights[4]
+						var snReportRight = true
+						var snPetitRight = send_petition_rights[4]
+						var rjTaskRight = reject_task_rights[2]
+						var crProjectRight = false
+						var edOtherRight = edit_other_rights[3]
+						var edSelfRight = false
+						break;
+					case "head":
+						var crStructRight = cr_struct_rights[2]
+						var crRoleRight = cr_roles_rights[3]
+						var snTaskRight = send_task_rights[2]
+						var snReportRight = true
+						var snPetitRight = send_petition_rights[3]
+						var rjTaskRight = reject_task_rights[1]
+						var crProjectRight = false
+						var edOtherRight = edit_other_rights[1]
+						var edSelfRight = false
+						break;
+					case "hr":
+						var crStructRight = cr_struct_rights[3]
+						var crRoleRight = cr_roles_rights[0]
+						var snTaskRight = send_task_rights[4]
+						var snReportRight = true
+						var snPetitRight = send_petition_rights[4]
+						var rjTaskRight = reject_task_rights[2]
+						var crProjectRight = false
+						var edOtherRight = edit_other_rights[1]
+						var edSelfRight = false
+						break;
+					case "gendir":
+						var crStructRight = cr_struct_rights[0]
+						var crRoleRight = cr_roles_rights[0]
+						var snTaskRight = send_task_rights[0]
+						var snReportRight = true
+						var snPetitRight = send_petition_rights[0]
+						var rjTaskRight = reject_task_rights[0]
+						var crProjectRight = true
+						var edOtherRight = edit_other_rights[0]
+						var edSelfRight = true
+						break;
+					default:
+						return;
+				}
+			form.setFieldsValue({
+				can_create_substructures: crStructRight.value,
+				can_create_subordinates: crRoleRight.value,
+				can_send_task: snTaskRight.value,
+				can_send_report: snReportRight,
+				can_send_petition: snPetitRight.value,
+				can_reject_task: rjTaskRight.value,
+				can_create_project: crProjectRight,
+				can_edit_other_rights: edOtherRight.value,
+				can_edit_oneself_rights: edSelfRight
+			})
 		}, [selectedKey])
 
 		const options = [
-				{
-					value: "ordinary",
-					label: "обычный" // TODO I18
-				}, 
-				{
-					value: "head",
-					label: "Глава отдела" // TODO I18
-				}, 
-				{
-					value: "hr",
-					label: "Эйчар" // TODO I18
-				}, 
-				{
-					value: 'gendir',
-					label: "Генеральный директор" // TODO I18
-				}
+			{
+				value: "ordinary",
+				label: "обычный" // TODO I18
+			}, 
+			{
+				value: "head",
+				label: "Глава отдела" // TODO I18
+			}, 
+			{
+				value: "hr",
+				label: "Эйчар" // TODO I18
+			}, 
+			{
+				value: 'gendir',
+				label: "Генеральный директор" // TODO I18
+			}
 		]
 
 		const onChange = (value) => {
-			setSelectedKey(value);
-			console.log('asdds');
-			
+				setSelectedKey(value);
 		}
 
 		return (
@@ -131,13 +123,11 @@ const TemplateDropdown = (props) => {
 		)
 }
 
-
 export function NewOrgForm() {
   const [form] = Form.useForm()
   const [submitLoading, setSubmitLoading] = useState(false)
   const [isDisable, setDisable] = useState()
 	const navigate = useNavigate()
-	const [authorized, setAthorized] = useState(true)
 
 		const onFinish = (values) => {
 				console.log("registerData", values)
@@ -152,13 +142,25 @@ export function NewOrgForm() {
 					}
 				)
 					.then(response => {
-						console.log('Response:', response.data);
+						console.log(response.data);
+						
+						api.get(`role/${response.data.gen_dir_id}/select`)
+						.then(() => {navigate("/tasks/my")})
 					})
 					.catch(error => {
-						console.error('Error:', error.response?.data || error.message);
-						if (error.response.status == 401 && error.response.data.detail === "Unauthorized"){
-							setAthorized(false)
-						}
+							console.log(error);
+							if (error.response) {
+									if (error.response.status === 500) {
+											console.error('Internal Server Error:', error.response.data)
+											navigate("/internal")
+									}
+							console.error('Error:', error.response?.data || error.message);
+							if (error.response.status == 401 && error.response.data.detail === "Unauthorized"){
+									navigate("/auth/jwt/login")
+							}
+							}
+							else
+									navigate("/internal")
 					})
 				.finally(() => {
 						setSubmitLoading(false)
@@ -176,9 +178,6 @@ export function NewOrgForm() {
 		useEffect(() => {
 				setDisable(submitLoading)
 		}, [submitLoading])
-		useEffect(() => {
-				if(!authorized) navigate("/auth/jwt/login")
-		}, [authorized])
 
 		return (
 			<Form

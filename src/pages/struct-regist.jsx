@@ -23,7 +23,7 @@ export const StructRegist = () => {
               title="Регистрация организации"
               className="shadow-lg w-11/12"
               style={{
-                maxWidth: 800
+                maxWidth: 450
               }}
               >
                 <NewOrgForm/>
