@@ -357,7 +357,7 @@ export function NewOrgForm() {
 						disabled={isDisable}
 						onClick={onClick}
 					>
-						Register
+						Зарегистрировать
 					</Button>
 				</Form.Item>
 			</Form>
