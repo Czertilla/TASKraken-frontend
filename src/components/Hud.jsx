@@ -133,7 +133,7 @@ export const Hud = (props) => {
               overflowX: "scroll",
               scrollbarGutter: "stable",
               whiteSpace: "nowrap",
-              scrollbarWidth: "none", // Убираем стандартный скроллбар для браузеров
+              scrollbarWidth: "none",
               msOverflowStyle: "none", // Для IE/Edge
             }}  
           >
@@ -144,31 +144,6 @@ export const Hud = (props) => {
             items={[
               {
                 key: "h",
-                icon: <HomeOutlined />,
-                label: "home",
-              },
-              {
-                key: "h",
-                icon: <HomeOutlined />,
-                label: "home",
-              },
-              {
-                key: "h",
-                icon: <HomeOutlined />,
-                label: "home",
-              },
-              {
-                key: "h",
-                icon: <HomeOutlined />,
-                label: "home",
-              },
-              {
-                key: "h",
-                icon: <HomeOutlined />,
-                label: "home",
-              },
-              {
-                key: "hвв",
                 icon: <HomeOutlined />,
                 label: "home",
               },
