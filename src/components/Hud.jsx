@@ -127,7 +127,6 @@ export const Hud = (props) => {
               }}
             />
           ) : <div/>}
-          {/* <ScrollableMenu> */}
           <Flex className='scroll-container'
             style={{
               overflowX: "scroll",
@@ -151,7 +150,6 @@ export const Hud = (props) => {
             ]}
             />
           </Flex>
-          {/* </ScrollableMenu> */}
 
           <Flex style={{ justifySelf: "end", marginRight: "8px" }}>{themeSwitcher}</Flex>
         </Header>
