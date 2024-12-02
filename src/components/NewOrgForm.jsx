@@ -3,6 +3,7 @@ import {
   Button,
   Checkbox,
   Col,
+  Divider,
   Dropdown,
   Form,
   Input,
@@ -155,6 +156,9 @@ export function NewOrgForm() {
 					})
 					.catch(error => {
 						console.error('Error:', error.response?.data || error.message);
+						if (error.response.status == 401 && error.response.data.detail === "Unauthorized"){
+							setAthorized(false)
+						}
 					})
 				.finally(() => {
 						setSubmitLoading(false)
@@ -185,6 +189,9 @@ export function NewOrgForm() {
 				onFinishFailed={onFinishFailed}
 				scrollToFirstError
 			>
+
+				<Divider>Организация</Divider>
+
 				<Form.Item
 					name="name"
 					label="Название" //TODO I18
@@ -221,6 +228,8 @@ export function NewOrgForm() {
 					>
 					<Input.TextArea showCount maxLength={MAX_DESC_LENGTH} />
 				</Form.Item>
+
+				<Divider>Главная роль</Divider>
 
 				<Form.Item
 					name="gen_dir_name"
@@ -286,7 +295,7 @@ export function NewOrgForm() {
 
 				<Form.Item
 					name="can_send_petition"
-					label="Оспраривание задач" // TODO I18
+					label="Оспаривание задач" // TODO I18
 					tooltip="Чьи поручения можно будет оспаривать в этой роли" // TODO I18
 					valuePropName="value"
 				>
