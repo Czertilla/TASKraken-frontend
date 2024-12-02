@@ -45,7 +45,6 @@ export const Hud = (props) => {
         setCollapsed(true);
         e.stopPropagation();
       }
-      
   }
   useEffect(() => {
       setTheme(getItem("theme", "white"))

@@ -234,6 +234,7 @@ export function NewOrgForm() {
 				<Form.Item
 					name="gen_dir_name"
 					label="Имя главной роли" //TODO I18
+					tooltip="Главная роль управляет всей организацией, корневая в иерархии" // TODO I18
 					rules={[
 						{
 							required: true,
