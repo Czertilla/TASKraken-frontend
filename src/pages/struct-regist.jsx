@@ -9,7 +9,15 @@ export const StructRegist = () => {
     return (
       <div>
         <Hud
-        content={
+        headMenuItems={[
+          {
+            key: 'ns',
+            label: 'Новая структура',
+            icon: <Icon component={NewOrgSvg}/>
+          },
+        ]}
+        dfltHead='ns'
+        >
           <div className="grid grid-cols-1 justify-items-center">
             <Card
               title="Регистрация организации"
@@ -21,16 +29,7 @@ export const StructRegist = () => {
                 <NewOrgForm/>
               </Card>
           </div>
-        }
-        headMenuItems={[
-          {
-            key: 'ns',
-            label: 'Новая структура',
-            icon: <Icon component={NewOrgSvg}/>
-          },
-        ]}
-        dfltHead='ns'
-        />
+        </Hud>
       </div>
     );
 };

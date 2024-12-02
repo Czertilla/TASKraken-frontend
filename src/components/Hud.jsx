@@ -1,13 +1,10 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   HomeOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
 } from '@ant-design/icons';
-import { Button, Flex, Layout, Menu, Tabs, theme } from 'antd';
+import { Button, Flex, Layout, Menu, theme } from 'antd';
 import { getItem } from '../utils/localStorage';
 import { ThemeSwithcer } from './ThemeSwitcher';
 import { useSwipeable } from 'react-swipeable';
@@ -29,9 +26,8 @@ const getSiderStyle = (coolapserAble) =>{
   };
 }
 
-
 export const Hud = (props) => {
-  const { content, sideMenuItems, headMenuItems, dfltSide, dfltHead } = props
+  const { children , sideMenuItems, headMenuItems, dfltSide, dfltHead } = props
   const [themeKey, setTheme] = useState(getItem("theme", "white"))
   const [collapsed, setCollapsed] = useState(false);
   const [collapserAble, setCollapserAble] = useState(true);
@@ -153,7 +149,7 @@ export const Hud = (props) => {
             borderRadius: borderRadiusLG,
           }}
         >
-          {content ? content : "content"}
+          {children || "content"}
         </Content>
       </Layout>
     </Layout>
