@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
   HomeOutlined,
   MenuFoldOutlined,
@@ -13,6 +13,7 @@ import { ThemeSwithcer } from './ThemeSwitcher';
 import { useSwipeable } from 'react-swipeable';
 import Icon from '@ant-design/icons';
 import "../styles/siderOverflow.css";
+import "../styles/scrollContainer.css";
 
 import logoSvg from '../assets/icons/task.svg?react';
 const { Header, Sider, Content } = Layout;
@@ -21,7 +22,7 @@ const getSiderStyle = (coolapserAble) =>{
   return {
     padding: 0,
     height: "100vh",
-    position: coolapserAble ? "sticky" : "absolute",
+    position: coolapserAble ? "sticky" : "fixed",
     zIndex: 999,
     top: 0,
     left: 0,
@@ -32,7 +33,7 @@ const getSiderStyle = (coolapserAble) =>{
 export const Hud = (props) => {
   const { content, sideMenuItems, headMenuItems, dfltSide, dfltHead } = props
   const [themeKey, setTheme] = useState(getItem("theme", "white"))
-  const [collapsed, setCollapsed] = useState(true);
+  const [collapsed, setCollapsed] = useState(false);
   const [collapserAble, setCollapserAble] = useState(true);
   const [buttonsColor, setBottonsColor] = useState("black")
   const themeSwitcher = ThemeSwithcer()
@@ -88,67 +89,98 @@ export const Hud = (props) => {
       </Sider>
       <Layout
       onClick={onClick}
-      className= {!collapserAble && !collapsed ? "hide-enter" : "hide-outer"}
+      className= {!collapserAble ?( !collapsed ? "hide-enter" : "hide-outer") : ""}
       style={{
-        overflow: "hidden",
+        overflow: "visible",
         marginLeft: collapserAble ? 0 : 72,
-        minHeight: "100vh"
+        minHeight: "100vh",
       }}
       >
         <Header
           style={{
             padding: 0,
-            background: themeKey === "light" ? colorBgContainer: null,
-            position: 'sticky',
+            background: themeKey === "light" ? colorBgContainer : null,
+            position: "sticky",
             top: 0,
             zIndex: 1,
-            width: '100%',
-            display: 'flex',
-            alignItems: 'center',
+            width: "100%",
+            display: "grid",
+            gridTemplateColumns: "auto 1fr auto", // Задаем 3 зоны: кнопка, меню, переключатель темы
+            alignItems: "center", // Центрируем элементы по вертикали
           }}
         >
-          {collapserAble ? <Button
-            className='flex my-auto'
-            type="text"
-            disabled={!collapserAble}
-            icon={
-                collapsed 
-                ? <MenuUnfoldOutlined style={{color: buttonsColor}}/> 
-                : <MenuFoldOutlined style={{color: buttonsColor}}/>}
-            onClick={() => setCollapsed(!collapsed)}
-            style={{
-              fontSize: '16px',
-              width: 64,
-              height: 64,
-            }}
-          /> : null}
-          <Flex
-            // className="overflow-x-scroll"
+          {collapserAble ? (
+            <Button
+              type="text"
+              icon={
+                collapsed ? (
+                  <MenuUnfoldOutlined style={{ color: buttonsColor }} />
+                ) : (
+                  <MenuFoldOutlined style={{ color: buttonsColor }} />
+                )
+              }
+              onClick={() => setCollapsed(!collapsed)}
+              style={{
+                fontSize: "16px",
+                width: 64,
+                height: 64,
+              }}
+            />
+          ) : <div/>}
+          {/* <ScrollableMenu> */}
+          <Flex className='scroll-container'
             style={{
               overflowX: "scroll",
               scrollbarGutter: "stable",
-              scrollbarWidth: "none"
-            }}
+              whiteSpace: "nowrap",
+              scrollbarWidth: "none", // Убираем стандартный скроллбар для браузеров
+              msOverflowStyle: "none", // Для IE/Edge
+            }}  
           >
-            <Menu
+          <Menu
             theme={themeKey}
             mode="horizontal"
-            defaultSelectedKeys={[dfltHead || 'h']}
+            defaultSelectedKeys={[dfltHead || "h"]}
             items={[
-                {
-                  key: 'h',
-                  icon: <HomeOutlined />,
-                  label: "home"
-                },
-                ...headMenuItems || []
-              ]}
+              {
+                key: "h",
+                icon: <HomeOutlined />,
+                label: "home",
+              },
+              {
+                key: "h",
+                icon: <HomeOutlined />,
+                label: "home",
+              },
+              {
+                key: "h",
+                icon: <HomeOutlined />,
+                label: "home",
+              },
+              {
+                key: "h",
+                icon: <HomeOutlined />,
+                label: "home",
+              },
+              {
+                key: "h",
+                icon: <HomeOutlined />,
+                label: "home",
+              },
+              {
+                key: "hвв",
+                icon: <HomeOutlined />,
+                label: "home",
+              },
+              ...(headMenuItems || []),
+            ]}
             />
           </Flex>
-          
-          <Flex className='ml-auto mr-2'>
-            {themeSwitcher}
-          </Flex>
+          {/* </ScrollableMenu> */}
+
+          <Flex style={{ justifySelf: "end", marginRight: "8px" }}>{themeSwitcher}</Flex>
         </Header>
+
         <Content
           style={{
             margin: '24px 16px',
