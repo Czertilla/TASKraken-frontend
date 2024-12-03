@@ -4,7 +4,7 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
 } from '@ant-design/icons';
-import { Button, Flex, Layout, Menu, theme } from 'antd';
+import { Button, Flex, Layout, Menu, Spin, theme } from 'antd';
 import { getItem } from '../utils/localStorage';
 import { ThemeSwithcer } from './ThemeSwitcher';
 import { useSwipeable } from 'react-swipeable';
@@ -13,6 +13,8 @@ import "../styles/siderOverflow.css";
 import "../styles/scrollContainer.css";
 
 import logoSvg from '../assets/icons/task.svg?react';
+import { api } from '../utils/axiosConfig';
+import { useNavigate } from 'react-router-dom';
 const { Header, Sider, Content } = Layout;
 
 const getSiderStyle = (coolapserAble) =>{
@@ -33,6 +35,8 @@ export const Hud = (props) => {
   const [collapserAble, setCollapserAble] = useState(true);
   const [buttonsColor, setBottonsColor] = useState("black")
   const themeSwitcher = ThemeSwithcer()
+  const navigate = useNavigate()
+  const [content, setContent] = useState(children || <Spin/>)
   const {
       token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
@@ -40,6 +44,38 @@ export const Hud = (props) => {
       onSwipedLeft: () => setCollapsed(true),
       onSwipedRight: () => setCollapsed(false)
   });
+
+  const catchErr = (error) => {
+    console.log(error);
+      if (error.response) {
+          if (error.response.status === 500) {
+              console.error('Internal Server Error:', error.response.data)
+              navigate("/internal")
+          }
+      console.error('Error:', error.response?.data || error.message);
+      if (error.response.status == 401 && error.response.data.detail === "Unauthorized"){
+          navigate("/auth/jwt/login")
+      }
+      }
+      else
+          navigate("/internal")
+  }
+
+  const onSiderClick = (e) => {
+    setContent(<Spin size='large'/>)
+    var prefix;
+    console.log("sider clicked: ", e.key);
+    if (e.key === 'h')
+        navigate("/home")
+    if (e.key.startsWith("r:"))
+        prefix = "role"
+    if (e.key.startsWith("p:"))
+        prefix = "projects"
+    if (prefix)
+        api.get(`${prefix}/${e.key.substr(2)}/select`)
+        .then((result) => setContent(children))
+        .catch(catchErr)
+  }
   const onClick = (e) => {
       if (!collapserAble && !collapsed) {
         setCollapsed(true);
@@ -72,6 +108,7 @@ export const Hud = (props) => {
           theme={themeKey}
           mode="inline"
           defaultSelectedKeys={[dfltSide || "h"]}
+          onClick={onSiderClick}
           items={[
             {
               key: 'h',
@@ -148,7 +185,7 @@ export const Hud = (props) => {
             borderRadius: borderRadiusLG,
           }}
         >
-          {children || "content"}
+          {content}
         </Content>
       </Layout>
     </Layout>
