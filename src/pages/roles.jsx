@@ -3,19 +3,9 @@ import { Spin } from 'antd';
 import axios from 'axios';
 import { useState } from 'preact/hooks';
 import { RoleCard } from '../components/RoleCard';
-import { RoleMenu } from '../components/RoleMenu';
+import { getRoleItems } from '../components/RoleMenu';
 import { api } from '../utils/axiosConfig';
 import { useNavigate } from 'react-router-dom';
-
-function getItem(label, key, icon, children, type){
-  return {
-    key,
-    icon,
-    children,
-    label,
-    type
-  }
-}
 
 export const Roles = () => {
   const [roles, setRoles] = useState([])
@@ -76,7 +66,7 @@ export const Roles = () => {
 
   return (
     <div className='flex'>
-      <RoleMenu 
+      <getRoleItems 
         items ={roles}
         hook ={onClick}
       />
