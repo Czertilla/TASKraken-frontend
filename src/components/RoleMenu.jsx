@@ -19,7 +19,7 @@ export function getRoleItems () {
   .then(r => {
     const searchRolesResponse = r.data.result
     return Promise.resolve([
-      getItem("Список ролей", "g1", null, 
+      getItem("Ваши роли", "g1", null, 
         searchRolesResponse.map(r => {
           return {label: r.name, key: `r:${r.id}`, icon: <UserOutlined />}
         }),
