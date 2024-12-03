@@ -34,7 +34,7 @@ export function LoginForm() {
 				withCredentials: true 
 			})
       .then((response) => {
-				navigate("/roles")
+				navigate("/tasks")
       })
       .catch((error) => {
 				console.error(error.response.data)

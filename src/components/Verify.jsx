@@ -58,7 +58,7 @@ export const Verify = (props) => {
       title="Verify your email"
       subTitle={`We send verification message. Check your email ${email}`}
       extra={[
-        <Button type="primary" href='/auth'>
+        <Button type="primary" href={`/auth/jwt/login/${email}`}>
           Go to Log in
         </Button>,
         <Button onClick={sendAgain} disabled={disable}>{`send again ${timerLable}`}</Button>,
