@@ -8,6 +8,7 @@ import { VerifyPage } from './pages/verify';
 import { Hud } from './components/Hud';
 import { StructRegist } from './pages/struct-regist';
 import { ProjectsNew } from './pages/projects-new';
+import { TasksMy } from './pages/tasks-my';
 
 export const App = () => {
 
@@ -27,6 +28,7 @@ export const App = () => {
           <Route path="/auth/verify/:email" element={<VerifyPage/>}/>
           <Route path="/roles" element={<Roles/>}/>
           <Route path="/struct/regist" element={<StructRegist/>}/>
+          <Route path="/tasks" element={<TasksMy/>}/>
           <Route path="/project/new" element={<ProjectsNew/>}/>
           <Route path="/hud" element={<Hud/>}/>
           <Route path="/internal" element={<InternalError/>}/>
