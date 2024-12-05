@@ -4,7 +4,7 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
 } from '@ant-design/icons';
-import { Button, Flex, Layout, Menu, Spin, theme } from 'antd';
+import { Button, Flex, Layout, Menu, theme } from 'antd';
 import { getItem } from '../utils/localStorage';
 import { ThemeSwithcer } from './ThemeSwitcher';
 import { useSwipeable } from 'react-swipeable';
@@ -29,14 +29,13 @@ const getSiderStyle = (coolapserAble) =>{
 }
 
 export const Hud = (props) => {
-  const { children , sideMenuItems, headMenuItems, dfltSide, dfltHead } = props
+  const { children , sideMenuItems, headMenuItems, dfltSide, dfltHead, onSideClick, onHeadClick } = props
   const [themeKey, setTheme] = useState(getItem("theme", "white"))
   const [collapsed, setCollapsed] = useState(false);
   const [collapserAble, setCollapserAble] = useState(true);
   const [buttonsColor, setBottonsColor] = useState("black")
   const themeSwitcher = ThemeSwithcer()
   const navigate = useNavigate()
-  const [content, setContent] = useState(children || <Spin/>)
   const {
       token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
@@ -62,20 +61,19 @@ export const Hud = (props) => {
   }
 
   const onSiderClick = (e) => {
-    setContent(<Spin size='large'/>)
-    var prefix;
-    console.log("sider clicked: ", e.key);
-    if (e.key === 'h')
-        navigate("/home")
-    if (e.key.startsWith("r:"))
-        prefix = "role"
-    if (e.key.startsWith("p:"))
-        prefix = "projects"
-    if (prefix)
-        api.get(`${prefix}/${e.key.substr(2)}/select`)
-        .then((result) => setContent(children))
-        .catch(catchErr)
+      if (e.key == 'h'){
+        navigate('/home')
+        return
+      } 
+      if (onSideClick) onSideClick(e)
   }
+  const onHeaderClick = (e) => {
+    if (e.key == 'h'){
+      navigate('/home')
+      return
+    } 
+    if (onHeadClick) onHeadClick(e)
+}
   const onClick = (e) => {
       if (!collapserAble && !collapsed) {
         setCollapsed(true);
@@ -88,6 +86,7 @@ export const Hud = (props) => {
   useEffect(() => {
       setBottonsColor(themeKey === "dark" ? "white" : "black")
   }, [themeKey])
+
   return (
     <Layout className='relative'>
       <Sider 
@@ -163,6 +162,7 @@ export const Hud = (props) => {
             theme={themeKey}
             mode="horizontal"
             defaultSelectedKeys={[dfltHead || "h"]}
+            onClick={onHeaderClick}
             items={[
               {
                 key: "h",
@@ -185,7 +185,7 @@ export const Hud = (props) => {
             borderRadius: borderRadiusLG,
           }}
         >
-          {content}
+          {children}
         </Content>
       </Layout>
     </Layout>
