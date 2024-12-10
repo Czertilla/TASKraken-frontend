@@ -11,7 +11,11 @@
   "dependencies": {
     "antd": "^5.22.1",
     "axios": "^1.7.7",
-    "preact": "^10.24.3"
+    "preact": "^10.24.3",
+    "react-recaptcha": "^2.3.10",
+    "react-router-dom": "^6.28.0",
+    "react-swipeable": "^7.0.2",
+    "vite-plugin-svgr": "^4.3.0"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.9.1",

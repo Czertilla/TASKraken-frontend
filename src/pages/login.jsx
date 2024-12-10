@@ -1,8 +1,8 @@
 import Card from "antd/es/card/Card";
-import { RegisterForm } from "../components/RegisterForm";
+import { LoginForm } from "../components/LoginForm";
 import { useParams } from 'react-router-dom';
 
-export const Register = () => {
+export const LoginPage = () => {
 
   const params = useParams();
   
@@ -16,16 +16,16 @@ export const Register = () => {
             }}
             title={
               <div>
-                  <p>Регистрация</p>
+                  <p>Вход</p>
               </div>
             }
             extra={
-              <a href="/auth/jwt/login">
-                Вход
+              <a href="/auth/register"> 
+                Регистрация
               </a>
             }
             >
-              <RegisterForm/>
+              <LoginForm/>
           </Card>
         </div>
     </div>
