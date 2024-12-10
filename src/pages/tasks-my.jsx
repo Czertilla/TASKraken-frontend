@@ -1,13 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { Card, Empty, Spin } from "antd";
+import { Card, Empty, FloatButton, Image, Spin } from "antd";
 import { Hud } from "../components/Hud";
 import { api } from "../utils/axiosConfig";
 import { useNavigate } from "react-router-dom";
 import { getCookieValue } from "../utils/cookie";
 import { TaskCard } from "../components/TaskCard";
 import {
-    LoadingOutlined
+	BarsOutlined,
+    LoadingOutlined,
+    PlusCircleOutlined
   } from '@ant-design/icons';
+import { getDefAv, getDefLg } from "../utils/getDefaultAvatar";
+
+const loadingProjItems = (message) => ({
+    label: message,
+    icon: <LoadingOutlined/>,
+    disabled: true,
+})
 
 export const TasksMy = () => {
     const [roles, setRoles] = useState([{
@@ -15,12 +24,31 @@ export const TasksMy = () => {
         icon: <LoadingOutlined/>,
         disabled: true,
     }]);
-    const [selectedRoleId, setselectedRoleId] = useState("r:"+getCookieValue('role_id'));
+    const [selectedRoleId, setSelectedRoleId] = useState("r:"+getCookieValue('role_id'));
+    const [selectedProjId, setSelectedProjId] = useState("p:"+getCookieValue('project_id'));
     const [selectedTab, setSelectedTab] = useState("my-tasks");
     const [tasks, setTasks] = useState([]);
     const [assignments, setAssignments] = useState([]);
+    const [projects, setProjects] = useState([]);
+    const [canCrProj, setCanCrProj] = useState(false);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
+
+    const catchNetworkErr = (error) => {
+            console.log(error);
+            if (error.response) {
+                if (error.response.status === 500) {
+                        console.error('Internal Server Error:', error.response.data)
+                        navigate("/internal")
+                }
+                console.error('Error:', error.response?.data || error.message);
+                if (error.response.status == 401 && error.response.data.detail === "Unauthorized"){
+                    navigate("/auth/jwt/login")
+                }
+            }
+            else
+                navigate("/internal")
+        }
 
   // Загружаем роли пользователя
   useEffect(() => {
@@ -32,26 +60,14 @@ export const TasksMy = () => {
           key: `r:${role.id}`,
           label: role.name,
           children: null,
-          icon: null, // Можно добавить иконку, если потребуется
+          icon: getDefAv(role.id), // Можно добавить иконку, если потребуется
           type: "item",
         }));
-        setselectedRoleId(getCookieValue('role_id') || null);
+        setSelectedRoleId(getCookieValue('role_id') || null);
         setRoles(roleItems);
       })
       .catch((error) => {
-        console.log(error);
-        if (error.response) {
-            if (error.response.status === 500) {
-                    console.error('Internal Server Error:', error.response.data)
-                    navigate("/internal")
-            }
-            console.error('Error:', error.response?.data || error.message);
-            if (error.response.status == 401 && error.response.data.detail === "Unauthorized"){
-                navigate("/auth/jwt/login")
-            }
-        }
-        else
-            navigate("/internal")
+        catchNetworkErr(error)
       });
   }, []);
 
@@ -68,29 +84,61 @@ export const TasksMy = () => {
     else
     api
       .get("tasks/my-assignments")
-      .then((response) => setAssignments(response.data.result))
+      .then((response) => setAssignments([...response.data.result, ...response.data.result, ...response.data.result, ...response.data.result]))
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));
   }, [selectedRoleId, selectedTab]);
+
   useEffect(() => {
-        console.log(tasks, assignments);
-        
+    setProjects([loadingProjItems("загрузка")])
+    api.get(`/role/${selectedRoleId}/rights`)
+    .then((response) => setCanCrProj(response.data.can_create_project))
+    .catch((error) => console.error(error));
+    api.get("/project/my")
+    .then((response) => {
+        // Генерация меню для Sider
+        const roleItems = response.data.result.map((proj) => ({
+          key: `p:${proj.id}`,
+          label: proj.name,
+          children: null,
+          icon: getDefLg(proj.id),
+          type: "item",
+        }));
+        setSelectedProjId(getCookieValue('project_id') || null);
+        setProjects(roleItems);
+    })
+    .catch((error) => {
+        catchNetworkErr(error)
+    });
+  }, [selectedRoleId])
+
+  useEffect(() => {
+    console.log(tasks, assignments);
   }, [tasks])
 
   const onSiderClick = (e) => {
     console.log("sider picked: ", e.key);
-    
-    const roleId = e.key.replace("r:", "");
-    api
-      .get(`/role/${roleId}/select`)
-      .then(() => {
-        console.log("load tasks for role", roleId);
-        setselectedRoleId(roleId);
-      })
-      .catch((error) => {
-        console.error("Error selecting role:", error);
-        navigate("/internal");
-      });
+    if (e.key === "np") navigate("/project/new")
+    if (e.key.startsWith("r:")) {
+        const roleId = e.key.replace("r:", "");
+        api
+        .get(`/role/${roleId}/select`)
+        .then(() => {
+            console.log("load tasks for role", roleId);
+            setSelectedRoleId(roleId);
+        })
+        .catch((error) => {
+            catchNetworkErr(error)
+        });
+    } else if (e.key.startsWith("p:")) {
+        const projId = e.key.replace("p:", "");
+        api
+        .get(`/project/${projId}/select`)
+        .then(() => {
+            console.log('select project:', projId);
+            setSelectedProjId(projId);
+        })
+    }
   };
   const onHeaderClick = (e) => {
     if (e.key == "my-tasks" || "my-assignments")
@@ -102,14 +150,25 @@ export const TasksMy = () => {
       sideMenuItems={[
         {
             key: 'mr',
-            label: "Мои роли",
+            label: "Роли",
             children: roles,
+            type: "group"
+        },
+        {
+            key: 'mp',
+            label: "Проекты",
+            children: [{
+                    key: "np",
+                    icon: <PlusCircleOutlined/>,
+                    label: "Новый проект",
+                    disabled: !canCrProj
+                }, ...projects],
             type: "group"
         }
     ]}
       headMenuItems={[
         { key: "my-tasks", label: "Мои задачи" },
-        { key: "my-assignments", label: "Мои назначения" },
+        { key: "my-assignments", label: "Мои поручения" },
       ]}
       dfltSide={selectedRoleId}
       dfltHead="my-tasks"
@@ -126,20 +185,26 @@ export const TasksMy = () => {
             tasks.map((task) => (
                 <TaskCard data={task}/>
             )) ||
-            <Empty/>
+            <Empty description="Нет задач"/>
          )}
           {selectedTab == "my-assignments" && ( assignments.length > 0 &&
             assignments.map((assignment) => (
-                <Card key={assignment.id} title={assignment.name} onClick={(e) => {navigate("/"+assignment.id)}}>
-                <p>{assignment.description}</p>
-                <p>Создано: {new Date(assignment.created_at).toLocaleString()}</p>
-                <p>Изменено: {new Date(assignment.edited_at).toLocaleString()}</p>
-                </Card>
+                <TaskCard data={assignment}/>
             )) ||
-            <Empty/>
+            <Empty description="Нет поручений"/>
          )}
         </div>
       )}
+			<FloatButton.Group
+					trigger="hover"
+					type="primary"
+					style={{ insetInlineEnd: 94 }}
+					icon={<PlusCircleOutlined />}
+				>
+					<FloatButton />
+					<FloatButton icon={<BarsOutlined />} />
+					<FloatButton.BackTop/>
+				</FloatButton.Group>
     </Hud>
   );
 };

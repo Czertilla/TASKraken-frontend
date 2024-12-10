@@ -88,11 +88,11 @@ export function LoginForm() {
         rules={[
           {
             type: 'email',
-            message: 'The input is not valid E-mail!',
+            message: 'Это не электронная почта!',
           },
           {
             required: true,
-            message: 'Please input your E-mail!',
+            message: 'Пожалуйста, введите адрес электронной почты!',
           },
         ]}
       >
@@ -101,11 +101,11 @@ export function LoginForm() {
 
       <Form.Item
         name="password"
-        label="Password"
+        label="Пароль"
         rules={[
           {
             required: true,
-            message: 'Please input your password!',
+            message: 'Пожалуйста, введите пароль!',
           },
         ]}
         hasFeedback
@@ -124,7 +124,7 @@ export function LoginForm() {
           disabled={isDisable}
           onClick={onClick}
         >
-          Log in
+          Вход
         </Button>
       </Form.Item>
     </Form>

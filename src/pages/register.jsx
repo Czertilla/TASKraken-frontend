@@ -19,6 +19,11 @@ export const Register = () => {
                   <p>Регистрация</p>
               </div>
             }
+            extra={
+              <a href="/auth/jwt/login">
+                Вход
+              </a>
+            }
             >
               <RegisterForm/>
           </Card>

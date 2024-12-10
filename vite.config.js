@@ -9,6 +9,7 @@ export default defineConfig({
     preact(),
     svgr({ svgrOptions: { icon: true } })
   ],
+  assetsInclude: ['**/*.png', '**/*.jpg'],
   css: {
     postcss : {
       plugins: [tailwindcss()],

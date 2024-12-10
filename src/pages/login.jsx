@@ -19,6 +19,11 @@ export const LoginPage = () => {
                   <p>Вход</p>
               </div>
             }
+            extra={
+              <a href="/auth/register"> 
+                Регистрация
+              </a>
+            }
             >
               <LoginForm/>
           </Card>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
   HomeOutlined,
+  LogoutOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
 } from '@ant-design/icons';
@@ -22,6 +23,9 @@ const getSiderStyle = (coolapserAble) =>{
     padding: 0,
     height: "100vh",
     position: coolapserAble ? "sticky" : "fixed",
+    overflow: "scroll",
+    scrollbarWidth: "none", // Скрывает скроллбар в Firefox
+    msOverflowStyle: "none", // Скрывает скроллбар в IE и Edge
     zIndex: 999,
     top: 0,
     left: 0,
@@ -44,32 +48,20 @@ export const Hud = (props) => {
       onSwipedRight: () => setCollapsed(false)
   });
 
-  const catchErr = (error) => {
-    console.log(error);
-      if (error.response) {
-          if (error.response.status === 500) {
-              console.error('Internal Server Error:', error.response.data)
-              navigate("/internal")
-          }
-      console.error('Error:', error.response?.data || error.message);
-      if (error.response.status == 401 && error.response.data.detail === "Unauthorized"){
-          navigate("/auth/jwt/login")
-      }
-      }
-      else
-          navigate("/internal")
+  const logout = () => {
+    api.post("auth/jwt/logout").then(() => navigate("/"))
   }
 
   const onSiderClick = (e) => {
       if (e.key == 'h'){
-        navigate('/home')
+        navigate('/')
         return
       } 
       if (onSideClick) onSideClick(e)
   }
   const onHeaderClick = (e) => {
     if (e.key == 'h'){
-      navigate('/home')
+      navigate('/')
       return
     } 
     if (onHeadClick) onHeadClick(e)
@@ -167,13 +159,16 @@ export const Hud = (props) => {
               {
                 key: "h",
                 icon: <HomeOutlined />,
-                label: "home",
+                label: "Главная",
               },
               ...(headMenuItems || []),
             ]}
             />
 
-          <Flex style={{ justifySelf: "end", marginRight: "8px" }}>{themeSwitcher}</Flex>
+          <Flex className="space-x-4" style={{ justifySelf: "end", marginRight: "1.2rem", alignItems: "stretch" }}>
+            {themeSwitcher}
+            <LogoutOutlined onClick={logout}/>
+          </Flex>
         </Header>
 
         <Content

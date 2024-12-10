@@ -6,7 +6,7 @@ export const NotFound = () => (
     status="404"
     title="404"
     subTitle="Sorry, the page you visited does not exist."
-    extra={<Button type="primary" href={"/register"}>Back Home</Button>}
+    extra={<Button type="primary" href={"/"}>Back Home</Button>}
   />
 );
 
@@ -15,7 +15,7 @@ export const Forbidden = () => (
     status="403"
     title="403"
     subTitle="Sorry, you cannot do this."
-    extra={<Button type="primary">Back Home</Button>}
+    extra={<Button type="primary" href={"/"}>Back Home</Button>}
   />
 );
 
@@ -24,7 +24,7 @@ export const InternalError = () => (
         status="500"
         title="500"
         subTitle="Sorry, something went wrong."
-        extra={<Button type="primary">Back Home</Button>}
+        extra={<Button type="primary" href={"/"}>Back Home</Button>}
     />
   );
   

@@ -12,6 +12,7 @@ import axios from 'axios';
 
 import Recaptcha from 'react-recaptcha';
 import { useNavigate } from 'react-router-dom';
+import { api } from '../utils/axiosConfig';
 
 
 const { Option } = Select;
@@ -27,14 +28,14 @@ const UsernameField = () => {
 				shouldUpdate
         name="username"
         label="username"
-        tooltip="What do you want others to call you?"
+        tooltip="Как Вы хотите, чтобы Вас назввали?"
 				hasFeedback
 				validateStatus={validateStatus}
 				validateDebounce={1000}
         rules={[
           {
             required: true,
-            message: 'Please input your username!',
+            message: 'Пожалуйста, введите имя!',
             whitespace: true,
           },
           () => ({
@@ -42,12 +43,12 @@ const UsernameField = () => {
 							console.log("check username: ", value)
 							if (value === "") return Promise.reject()
 							setValidateStatus("validating")
-							return axios.get(`http://127.0.0.1:8000/user/check/${value}`).then((r) => {
+							return api.get(`/user/check/${value}`).then((r) => {
 								const isValid = value === r.data.username && !r.data.exists
 								setValidateStatus(isValid ? "success" : "error")
 								if (isValid)
 									return Promise.resolve()
-								return Promise.reject(new Error("this username already exists"))
+								return Promise.reject(new Error("это имя уже занято"))
 							})
             },
           }),
@@ -130,16 +131,16 @@ export function RegisterForm() {
         rules={[
           {
             type: 'email',
-            message: 'The input is not valid E-mail!',
+            message: 'не является почтой!',
           },
           {
             required: true,
-            message: 'Please input your E-mail!',
+            message: 'Пожалуйста, введите электронную почту!',
           },
           () => ({
             validator(_, value) {
               if (existingEmail===value){
-                return Promise.reject(new Error("this email already registered"))
+                return Promise.reject(new Error("Эта почта уже зарегистрирована"))
               }
               return Promise.resolve()
             },
@@ -153,11 +154,11 @@ export function RegisterForm() {
 
       <Form.Item
         name="password"
-        label="Password"
+        label="Пароль"
         rules={[
           {
             required: true,
-            message: 'Please input your password!',
+            message: 'Пожалуйста, придумайте пароль!',
           },
         ]}
         hasFeedback
@@ -167,20 +168,20 @@ export function RegisterForm() {
 
       <Form.Item
         name="confirm"
-        label="Confirm Password"
+        label="Подтверждение пароля"
         dependencies={['password']}
         hasFeedback
         rules={[
           {
             required: true,
-            message: 'Please confirm your password!',
+            message: 'Пожалуйста, подтвердите пароль!',
           },
           ({ getFieldValue }) => ({
             validator(_, value) {
               if (!value || getFieldValue('password') === value) {
                 return Promise.resolve();
               }
-              return Promise.reject(new Error('The new password that you entered do not match!'));
+              return Promise.reject(new Error('Пароли не совпадают!'));
             },
           }),
         ]}
@@ -217,12 +218,12 @@ export function RegisterForm() {
         rules={[
           {
             validator: (_, value) =>
-              value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement')),
+              value ? Promise.resolve() : Promise.reject(new Error('Необходимо подтвердить')),
           },
         ]}
       >
         <Checkbox>
-          I have read the <a href="">agreement</a>
+          Я прочитал(а) <a href="">пользовательское соглашение</a>
         </Checkbox>
       </Form.Item>
       <Form.Item 
@@ -236,7 +237,7 @@ export function RegisterForm() {
           disabled={isDisable}
           onClick={onClick}
         >
-          Register
+          Зарегистрироваться
         </Button>
       </Form.Item>
     </Form>

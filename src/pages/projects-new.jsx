@@ -1,15 +1,14 @@
 import Card from "antd/es/card/Card";
 import { Hud } from "../components/Hud";
-import Icon, { LoadingOutlined } from '@ant-design/icons';
-import NewOrgSvg from "../assets/icons/neworg.svg?react";
+import Icon, { AppstoreAddOutlined, LoadingOutlined } from '@ant-design/icons';
 import { NewPrjForm } from "../components/NewPrjForm";
-import { getRoleItems } from "../components/RoleMenu";
 import { getCookieValue } from "../utils/cookie";
 import { useEffect, useState } from "preact/hooks";
 import { useNavigate } from "react-router-dom";
 import { api } from "../utils/axiosConfig";
 import { Forbidden } from "../components/Result";
 import { Spin } from "antd";
+import { getDefAv, getDefLg } from "../utils/getDefaultAvatar";
 
 
 export const ProjectsNew = () => {
@@ -18,26 +17,26 @@ export const ProjectsNew = () => {
       icon: <LoadingOutlined/>,
       disabled: true,
     }]);
-    const [selectedRoleId, setselectedRoleId] = useState("r:"+getCookieValue('role_id'));
+    const [selectedRoleId, setSelectedRoleId] = useState("r:"+getCookieValue('role_id'));
     const [loading, setLoading] = useState(true);
     const [forbidden, setForbidden] = useState(false);
     const navigate = useNavigate();
 
-    // Загружаем роли пользователя
-    useEffect(() => {
+      // Загружаем роли пользователя
+  useEffect(() => {
     api
-    .get("role/my-roles")
-    .then((response) => {
-      // Генерация меню для Sider
-      const roleItems = response.data.result.map((role) => ({
-        key: `r:${role.id}`,
-        label: role.name,
-        children: null,
-        icon: null, // Можно добавить иконку, если потребуется
-        type: "item",
-      }));
-      setselectedRoleId(getCookieValue('role_id') || null);
-      setRoles(roleItems);
+      .get("role/my-roles")
+      .then((response) => {
+        // Генерация меню для Sider
+        const roleItems = response.data.result.map((role) => ({
+          key: `r:${role.id}`,
+          label: role.name,
+          children: null,
+          icon: getDefAv(role.id), // Можно добавить иконку, если потребуется
+          type: "item",
+        }));
+        setSelectedRoleId(getCookieValue('role_id') || null);
+        setRoles(roleItems);
     })
     .catch((error) => {
       console.log(error);
@@ -74,7 +73,7 @@ export const ProjectsNew = () => {
         .get(`/role/${roleId}/select`)
         .then(() => {
             console.log("load tasks for role", roleId);
-            setselectedRoleId(roleId);
+            setSelectedRoleId(roleId);
         })
         .catch((error) => {
             console.error("Error selecting role:", error);
@@ -90,7 +89,7 @@ export const ProjectsNew = () => {
           {
             key: 'np',
             label: 'Новый проект',
-            icon: <Icon component={NewOrgSvg}/>
+            icon: <AppstoreAddOutlined />
           },
         ]}
         sideMenuItems={[

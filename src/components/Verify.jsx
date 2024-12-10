@@ -2,6 +2,7 @@ import { Button, Result } from 'antd';
 import axios from 'axios';
 import { useEffect, useState } from 'preact/hooks';
 import { useParams } from 'react-router-dom';
+import { api } from '../utils/axiosConfig';
 
 export const Verify = (props) => {
     const params = useParams();
@@ -23,7 +24,7 @@ export const Verify = (props) => {
     }
 
     const sendAgain = () => {
-        axios.post("http://127.0.0.1:8000/auth/request-verify-token", {email: email})
+        api.post("/auth/request-verify-token", {email: email})
         setTimer(maxTimeoutSeconds)
     }
 
@@ -55,13 +56,13 @@ export const Verify = (props) => {
 
     return (
     <Result
-      title="Verify your email"
-      subTitle={`We send verification message. Check your email ${email}`}
+      title="Подтвердите свою почту"
+      subTitle={`мы отправили письмо с подтверждением. Проверьте свою почту ${email}`}
       extra={[
         <Button type="primary" href={`/auth/jwt/login/${email}`}>
-          Go to Log in
+          Войти
         </Button>,
-        <Button onClick={sendAgain} disabled={disable}>{`send again ${timerLable}`}</Button>,
+        <Button onClick={sendAgain} disabled={disable}>{`Отправить повторно ${timerLable}`}</Button>,
       ]}
     />
   )
