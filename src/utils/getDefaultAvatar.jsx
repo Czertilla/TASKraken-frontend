@@ -15,6 +15,23 @@ import avatard from '../assets/defaultAvatars/d.png'
 import avatare from '../assets/defaultAvatars/e.png'
 import avatarf from '../assets/defaultAvatars/f.png'
 
+import logo0 from '../assets/defaultLogos/0.png'
+import logo1 from '../assets/defaultLogos/1.png'
+import logo2 from '../assets/defaultLogos/2.png'
+import logo3 from '../assets/defaultLogos/3.png'
+import logo4 from '../assets/defaultLogos/4.png'
+import logo5 from '../assets/defaultLogos/5.png'
+import logo6 from '../assets/defaultLogos/6.png'
+import logo7 from '../assets/defaultLogos/7.png'
+import logo8 from '../assets/defaultLogos/8.png'
+import logo9 from '../assets/defaultLogos/9.png'
+import logoa from '../assets/defaultLogos/a.png'
+import logob from '../assets/defaultLogos/b.png'
+import logoc from '../assets/defaultLogos/c.png'
+import logod from '../assets/defaultLogos/d.png'
+import logoe from '../assets/defaultLogos/e.png'
+import logof from '../assets/defaultLogos/f.png'
+
 
 const avatars = {
     "0": avatar0,
@@ -35,10 +52,29 @@ const avatars = {
     "f": avatarf,
 }
 
+const logos = {
+    "0": logo0,
+    "1": logo1,
+    "2": logo2,
+    "3": logo3,
+    "4": logo4,
+    "5": logo5,
+    "6": logo6,
+    "7": logo7,
+    "8": logo8,
+    "9": logo9,
+    "a": logoa,
+    "b": logob,
+    "c": logoc,
+    "d": logod,
+    "e": logoe,
+    "f": logof,
+}
+
 export const getDefAv = (uuid) => {
     return <img src={avatars[uuid.substr(0, 1)]} width={16} height={16}/>
 }
 
 export const getDefLg = (uuid) => {
-    return <img src={`src/assets/defaultLogos/${uuid.substr(0, 1)}.png`} width={16} height={16}/>
+    return <img src={logos[uuid.substr(0, 1)]} width={16} height={16}/>
 }

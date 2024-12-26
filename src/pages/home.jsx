@@ -68,17 +68,17 @@ export const Home = () => {
     {
       title: 'Управляйте задачами эффективно',
       description: 'TASKraken помогает вам оставаться организованным и достигать целей.',
-      imgSrc: { carousel1 },
+      imgSrc: carousel1,
     },
     {
       title: 'Коллаборация на новом уровне',
       description: 'Объедините усилия вашей команды с лёгкостью.',
-      imgSrc: { carousel2 },
+      imgSrc: carousel2,
     },
     {
       title: 'Максимальная производительность',
       description: 'Инструменты для продуктивной работы в одном месте.',
-      imgSrc: { carousel3 },
+      imgSrc: carousel3,
     },
   ];
 
@@ -192,6 +192,10 @@ export const Home = () => {
             <img
               src={logo}
               alt="TASKraken Logo"
+              style={{
+                maxWidth: '100%',
+                height: 'auto',
+              }}
               className="w-96 h-96 rounded-full border-4 border-white"
             />
           </div>
