@@ -12,7 +12,6 @@ import { api } from '../utils/axiosConfig';
 
 import Recaptcha from 'react-recaptcha';
 import { useNavigate } from 'react-router-dom';
-import { api } from '../utils/axiosConfig';
 
 
 const { Option } = Select;
