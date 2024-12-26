@@ -11,7 +11,8 @@ import Icon, {
   HomeOutlined,
   LogoutOutlined,
   LoginOutlined,
-  AppstoreAddOutlined
+  AppstoreAddOutlined,
+  ApiOutlined
 } from '@ant-design/icons';
 import '../styles/mainAnimations.css'; // Стили для анимаций
 import logoSvg from '../assets/icons/task.svg?react';
@@ -329,15 +330,27 @@ export const Home = () => {
           <Space direction="vertical" size="large" style={{ textAlign: 'center', width: '100%' }}>
             <Title level={4}>Есть вопросы?</Title>
             <Paragraph>Свяжитесь с нашей поддержкой по адресу: <a href="mailto:czertilla@gmail.com">support@czertilla.ru</a></Paragraph>
-            <Button className='mb-3'
-              type="link"
-              href="https://github.com/Czertilla/TASKraken-frontend"
-            >
-              <Space direction='vertical'>
-                <GithubOutlined style={{ fontSize: "40px" }} />
-                GitHub
-              </Space>
-            </Button>
+            <Space direction='horizontal'>
+              <Button className='mb-3'
+                type="link"
+                href="https://github.com/Czertilla/TASKraken-frontend"
+              >
+                <Space direction='vertical'>
+                  <GithubOutlined style={{ fontSize: "40px" }} />
+                  GitHub
+                </Space>
+              </Button>
+              
+              <Button className='mb-3'
+                type="link"
+                href="https://api.taskraken.czertilla.ru/docs"
+              >
+                <Space direction='vertical'>
+                  <ApiOutlined style={{ fontSize: "40px" }} />
+                  Api
+                </Space>
+              </Button>
+            </Space>
           </Space>
         </Footer>
       </div>
