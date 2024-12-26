@@ -18,7 +18,7 @@ import { api } from '../utils/axiosConfig';
 import { useNavigate } from 'react-router-dom';
 const { Header, Sider, Content } = Layout;
 
-const getSiderStyle = (coolapserAble) =>{
+const getSiderStyle = (coolapserAble) => {
   return {
     padding: 0,
     height: "100vh",
@@ -33,7 +33,7 @@ const getSiderStyle = (coolapserAble) =>{
 }
 
 export const Hud = (props) => {
-  const { children , sideMenuItems, headMenuItems, dfltSide, dfltHead, onSideClick, onHeadClick } = props
+  const { children, sideMenuItems, headMenuItems, dfltSide, dfltHead, onSideClick, onHeadClick } = props
   const [themeKey, setTheme] = useState(getItem("theme", "white"))
   const [collapsed, setCollapsed] = useState(false);
   const [collapserAble, setCollapserAble] = useState(true);
@@ -41,11 +41,11 @@ export const Hud = (props) => {
   const themeSwitcher = ThemeSwithcer()
   const navigate = useNavigate()
   const {
-      token: { colorBgContainer, borderRadiusLG },
+    token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
   const swipeHandler = useSwipeable({
-      onSwipedLeft: () => setCollapsed(true),
-      onSwipedRight: () => setCollapsed(false)
+    onSwipedLeft: () => setCollapsed(true),
+    onSwipedRight: () => setCollapsed(false)
   });
 
   const logout = () => {
@@ -53,39 +53,39 @@ export const Hud = (props) => {
   }
 
   const onSiderClick = (e) => {
-      if (e.key == 'h'){
-        navigate('/')
-        return
-      } 
-      if (onSideClick) onSideClick(e)
-  }
-  const onHeaderClick = (e) => {
-    if (e.key == 'h'){
+    if (e.key == 'h') {
       navigate('/')
       return
-    } 
+    }
+    if (onSideClick) onSideClick(e)
+  }
+  const onHeaderClick = (e) => {
+    if (e.key == 'h') {
+      navigate('/')
+      return
+    }
     if (onHeadClick) onHeadClick(e)
-}
+  }
   const onClick = (e) => {
-      if (!collapserAble && !collapsed) {
-        setCollapsed(true);
-        e.stopPropagation();
-      }
+    if (!collapserAble && !collapsed) {
+      setCollapsed(true);
+      e.stopPropagation();
+    }
   }
   useEffect(() => {
-      setTheme(getItem("theme", "white"))
+    setTheme(getItem("theme", "white"))
   }, [themeSwitcher])
   useEffect(() => {
-      setBottonsColor(themeKey === "dark" ? "white" : "black")
+    setBottonsColor(themeKey === "dark" ? "white" : "black")
   }, [themeKey])
 
   return (
     <Layout className='relative'>
-      <Sider 
+      <Sider
         {...swipeHandler}
-        trigger={null} 
+        trigger={null}
         theme={themeKey}
-        collapsible 
+        collapsible
         style={getSiderStyle(collapserAble)}
         collapsed={collapsed}
         breakpoint="sm"
@@ -103,7 +103,7 @@ export const Hud = (props) => {
           items={[
             {
               key: 'h',
-              icon: <Icon component={logoSvg} style={{fontSize: "40px", marginLeft: "-13px"}}/>,
+              icon: <Icon component={logoSvg} style={{ fontSize: "40px", marginLeft: "-13px" }} />,
               label: "TASKraken",
             },
             ...sideMenuItems || []
@@ -111,13 +111,13 @@ export const Hud = (props) => {
         />
       </Sider>
       <Layout
-      onClick={onClick}
-      className= {!collapserAble ?( !collapsed ? "hide-enter" : "hide-outer") : ""}
-      style={{
-        overflow: "visible",
-        marginLeft: collapserAble ? 0 : 72,
-        minHeight: "100vh",
-      }}
+        onClick={onClick}
+        className={!collapserAble ? (!collapsed ? "hide-enter" : "hide-outer") : ""}
+        style={{
+          overflow: "visible",
+          marginLeft: collapserAble ? 0 : 72,
+          minHeight: "100vh",
+        }}
       >
         <Header
           style={{
@@ -149,25 +149,32 @@ export const Hud = (props) => {
                 height: 64,
               }}
             />
-          ) : <div/>}
-          <Menu
-            theme={themeKey}
-            mode="horizontal"
-            defaultSelectedKeys={[dfltHead || "h"]}
-            onClick={onHeaderClick}
-            items={[
-              {
-                key: "h",
-                icon: <HomeOutlined />,
-                label: "Главная",
-              },
-              ...(headMenuItems || []),
-            ]}
+          ) : <div />}
+          <div
+            style={{
+              flexGrow: 1, // Занимаем оставшееся пространство
+              overflow: "hidden", // Предотвращаем выход за пределы
+            }}>
+            <Menu
+              theme={themeKey}
+              mode="horizontal"
+              defaultSelectedKeys={[dfltHead || "h"]}
+              onClick={onHeaderClick}
+              items={[
+                {
+                  key: "h",
+                  icon: <HomeOutlined />,
+                  label: "Главная",
+                },
+                ...(headMenuItems || []),
+              ]}
             />
+          </div>
+
 
           <Flex className="space-x-4" style={{ justifySelf: "end", marginRight: "1.2rem", alignItems: "stretch" }}>
             {themeSwitcher}
-            <LogoutOutlined onClick={logout}/>
+            <LogoutOutlined onClick={logout} />
           </Flex>
         </Header>
 
