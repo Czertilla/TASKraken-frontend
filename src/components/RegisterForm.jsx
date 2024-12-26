@@ -8,7 +8,7 @@ import {
   Row,
   Select,
 } from 'antd';
-import axios from 'axios';
+import { api } from '../utils/axiosConfig';
 
 import Recaptcha from 'react-recaptcha';
 import { useNavigate } from 'react-router-dom';
@@ -68,9 +68,9 @@ export function RegisterForm() {
 
   const onFinish = (values) => {
     console.log("registerData", values)
-      axios.post("http://localhost:8000/auth/register", values)
+      api.post("http://localhost:8000/auth/register", values)
       .then((response) => {
-        axios.post("http://127.0.0.1:8000/auth/request-verify-token", {email: response.data.email})
+        api.post("http://127.0.0.1:8000/auth/request-verify-token", {email: response.data.email})
         localStorage.setItem("sendVerifyTimeout", "90")
         navigate(`/auth/verify/${response.data.email}`)
       })

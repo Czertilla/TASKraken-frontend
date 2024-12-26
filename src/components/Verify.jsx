@@ -1,5 +1,4 @@
 import { Button, Result } from 'antd';
-import axios from 'axios';
 import { useEffect, useState } from 'preact/hooks';
 import { useParams } from 'react-router-dom';
 import { api } from '../utils/axiosConfig';
