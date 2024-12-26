@@ -49,7 +49,7 @@ export const Hud = (props) => {
   });
 
   const logout = () => {
-    api.post("auth/jwt/logout").then(() => navigate("/"))
+    api.post("/auth/jwt/logout").then(() => navigate("/"))
   }
 
   const onSiderClick = (e) => {

@@ -144,7 +144,7 @@ export function NewOrgForm() {
 					.then(response => {
 						console.log(response.data);
 						
-						api.get(`role/${response.data.gen_dir_id}/select`)
+						api.get(`/role/${response.data.gen_dir_id}/select`)
 						.then(() => {navigate("/tasks/my")})
 					})
 					.catch(error => {

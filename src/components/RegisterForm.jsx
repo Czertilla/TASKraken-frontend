@@ -67,9 +67,9 @@ export function RegisterForm() {
 
   const onFinish = (values) => {
     console.log("registerData", values)
-      api.post("http://localhost:8000/auth/register", values)
+      api.post("/auth/register", values)
       .then((response) => {
-        api.post("http://127.0.0.1:8000/auth/request-verify-token", {email: response.data.email})
+        api.post("/auth/request-verify-token", {email: response.data.email})
         localStorage.setItem("sendVerifyTimeout", "90")
         navigate(`/auth/verify/${response.data.email}`)
       })

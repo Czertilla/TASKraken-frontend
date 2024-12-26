@@ -41,7 +41,7 @@ export function NewPrjForm() {
             .then(response => {
                 console.log(response.data);
                 
-                api.get(`project/${response.data.id}/select`)
+                api.get(`/project/${response.data.id}/select`)
                 .then(() => {navigate("/tasks/my")})
             })
             .catch(error => {
