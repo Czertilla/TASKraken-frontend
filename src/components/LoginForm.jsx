@@ -25,7 +25,7 @@ export function LoginForm() {
 			} 
 			axios({
 				method: 'post',
-				url: `${import.meta.env.VITE_API_URL}/auth/jwt/login`,
+				url: `${import.meta.env.VITE_API_URL || "http://localhost:8000"}/auth/jwt/login`,
 				headers: {
 					accept: "application/json",
 					"Content-Type": "application/x-www-form-urlencoded"
