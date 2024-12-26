@@ -18,6 +18,10 @@ import logoSvg from '../assets/icons/task.svg?react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { api } from '../utils/axiosConfig';
 import NewOrgSvg from "../assets/icons/neworg.svg?react";
+import carousel1 from "../assets/carousel1.webp"
+import carousel2 from "../assets/carousel2.webp"
+import carousel3 from "../assets/carousel3.webp"
+import logo from "../assets/logo.png?react"
 
 const {Header, Footer} = Layout
 const { Title, Paragraph } = Typography;
@@ -64,17 +68,17 @@ export const Home = () => {
         {
             title: 'Управляйте задачами эффективно',
             description: 'TASKraken помогает вам оставаться организованным и достигать целей.',
-            imgSrc: 'src/assets/carousel1.webp',
+            imgSrc: carousel1,
         },
         {
             title: 'Коллаборация на новом уровне',
             description: 'Объедините усилия вашей команды с лёгкостью.',
-            imgSrc: 'src/assets/carousel2.webp',
+            imgSrc: carousel2,
         },
         {
             title: 'Максимальная производительность',
             description: 'Инструменты для продуктивной работы в одном месте.',
-            imgSrc: 'src/assets/carousel3.webp',
+            imgSrc: carousel3,
         },
     ];
 
@@ -180,7 +184,7 @@ export const Home = () => {
               }}>
                   <div className="logo-container mb-6">
                     <img 
-                      src="/src/assets/logo.png" 
+                      src={logo}
                       alt="TASKraken Logo" 
                       className="w-96 h-96 rounded-full border-4 border-white" 
                     />
